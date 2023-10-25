@@ -1,8 +1,11 @@
 package com.zainco.screenshotuitesting
 
+import android.content.Context
+import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.os.Environment
 import androidx.test.core.app.ActivityScenario
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.assertion.ViewAssertions
@@ -22,11 +25,13 @@ import org.junit.runner.RunWith
 import org.junit.runners.MethodSorters
 import java.io.File
 import java.io.FileOutputStream
+import java.util.Locale
 
 @RunWith(AndroidJUnit4ClassRunner::class)
 class MainActivityTest {
     @get:Rule
     val activityRule = ActivityScenarioRule(MainActivity::class.java)
+    val languageCode: String = "ar"
     /* @Test
      fun a_testActivity_inView() {
          val activityScenario = ActivityScenario.launch(MainActivity::class.java)
@@ -105,29 +110,42 @@ class MainActivityTest {
     }
 
     @Test
-    fun test_english_clicked_takeScreenShotForMain() {
+    fun test_takeScreenShotForJourney() {
         val activityScenario = ActivityScenario.launch(MainActivity::class.java)
-        Espresso.onView(withId(R.id.btnEnglish)).perform(ViewActions.click())
+        Espresso.onView(withId(R.id.btnArabic)).perform(ViewActions.click())
+        setAppLanguage() // Restore the original language
+        captureScreenShot("Screen1-$languageCode.png")
+        Espresso.onView(withId(R.id.button_next_activity)).perform(ViewActions.click())
+        captureScreenShot("Screen2-$languageCode.png")
+    }
+
+    private fun captureScreenShot(name: String) {
         val device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
         val screenshot = File(
             Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).absolutePath,
-            "Screen1-English.png"
+            name
         )
         device.takeScreenshot(screenshot)
     }
 
-    @Test
-    fun test_english_clicked_takeScreenShotForSecondary() {
-        val activityScenario = ActivityScenario.launch(MainActivity::class.java)
-        Espresso.onView(withId(R.id.btnEnglish)).perform(ViewActions.click())
-        Espresso.onView(withId(R.id.button_next_activity)).perform(ViewActions.click())
-        val device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
-        val screenshot = File(
-            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).absolutePath,
-            "Screen2-English.png"
-        )
-        device.takeScreenshot(screenshot)
+    private fun setAppLanguage() {
+        val context = ApplicationProvider.getApplicationContext<Context>()
+        val newConfig = Configuration(context.resources.configuration)
+        newConfig.setLocale(Locale(languageCode))
+        context.resources.updateConfiguration(newConfig, context.resources.displayMetrics)
     }
+    /* @Test
+     fun test_english_clicked_takeScreenShotForSecondary() {
+         val activityScenario = ActivityScenario.launch(MainActivity::class.java)
+         Espresso.onView(withId(R.id.btnEnglish)).perform(ViewActions.click())
+         Espresso.onView(withId(R.id.button_next_activity)).perform(ViewActions.click())
+         val device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
+         val screenshot = File(
+             Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).absolutePath,
+             "Screen2-English.png"
+         )
+         device.takeScreenshot(screenshot)
+     }*/
 
     @Test
     fun test_arabic_clicked_takeScreenShotForMain() {
