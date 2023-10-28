@@ -2,7 +2,6 @@ package com.zainco.screenshotuitesting
 
 import android.content.Context
 import android.content.res.Configuration
-import android.graphics.Bitmap
 import android.os.Environment
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
@@ -15,22 +14,21 @@ import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
 import androidx.test.platform.app.InstrumentationRegistry
-import androidx.test.runner.screenshot.Screenshot
 import androidx.test.uiautomator.UiDevice
 import org.junit.Assert.*
-import org.junit.FixMethodOrder
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.junit.runners.MethodSorters
 import java.io.File
-import java.io.FileOutputStream
 import java.util.Locale
 
 @RunWith(AndroidJUnit4ClassRunner::class)
 class MainActivityTest {
     @get:Rule
     val activityRule = ActivityScenarioRule(MainActivity::class.java)
+
+    @get:Rule
+    val localeTestRule = ForceLocaleRule(Locale.US)
     val languageCode: String = "ar"
     /* @Test
      fun a_testActivity_inView() {

@@ -2,9 +2,9 @@ package com.zainco.screenshotuitesting
 
 import android.content.Intent
 import android.content.res.Configuration
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import androidx.appcompat.app.AppCompatActivity
 import java.util.Locale
 
 class MainActivity : AppCompatActivity() {
@@ -58,4 +58,54 @@ class MainActivity : AppCompatActivity() {
         setAppLocale("ar")
         restartActivity()
     }
+}
+
+
+/**
+ * Example 1:
+ *
+ * Input: nums = [1,1,1,2,2,3]
+ * Output: 5, nums = [1,1,2,2,3,_]
+ * Explanation: Your function should return k = 5, with the first five elements of nums being 1, 1, 2, 2 and 3 respectively.
+ * It does not matter what you leave beyond the returned k (hence they are underscores).
+ * Example 2:
+ *
+ * Input: nums = [0,0,1,1,1,1,1,2,3,3]
+ * Output: 7, nums = [0,0,1,1,2,3,3,_,_]
+ * Explanation: Your function should return k = 7, with the first seven elements of nums being 0, 0, 1, 1, 2, 3 and 3 respectively.
+ * It does not matter what you leave beyond the returned k (hence they are underscores).
+ *
+ */
+
+
+fun main(args: Array<String>) {
+    println(removeDuplicates(intArrayOf(0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 2, 3, 3)))
+}
+
+fun removeDuplicates(nums: IntArray): Int {
+    var i = 0
+    // there is a work to n loop, "GO wherever you go, I am here with index i will get the first different value"
+    for (n in nums){
+        if (i < 2){
+            i++
+            continue
+        }
+        if(nums[i-2] != n){
+            nums[i] = n//this line and the next spread the desired array and no need for the duplications
+            i++
+        }
+    }
+    return i
+}
+
+fun removeDuplicates2(nums: IntArray): Int {
+    var i = 0
+    for (n in nums) {
+        if (i < 2 || n != nums[i - 2]) {
+            nums[i++] = n
+            print("${n},")
+            println()
+        }
+    }
+    return i
 }
