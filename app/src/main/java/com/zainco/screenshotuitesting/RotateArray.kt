@@ -1,19 +1,28 @@
 package com.zainco.screenshotuitesting
 
-object RotateArray {
+object RotateArray { // something like a game which reverses all the array then the first k-1 ones then the k -> n-1
     @JvmStatic
     fun main(args: Array<String>) {
-        println(removeDuplicates(intArrayOf(1, 1, 1, 2, 2, 3)))
+        val array = intArrayOf(1, 2, 3, 4, 5, 6, 7)
+        rotate(array, 3)
+        array.forEach {
+            print("$it,")
+        }
     }
 
     fun rotate(nums: IntArray, k: Int) {
-        var k = k
-        var i = nums.size - 2
-        while (i > 0) {
-            val temp = nums[nums.size - 1]
-            nums[i + 1] = nums[i]
-            i--
+        reverse(nums, 0, nums.size - 1)
+        reverse(nums, 0, k - 1)
+        reverse(nums, k, nums.size - 1)
+    }
 
+    fun reverse(nums: IntArray, firstIndex: Int, lastIndex: Int) {
+        var firstIndexPointer = firstIndex
+        var lastIndexPointer = lastIndex
+        while (firstIndexPointer<lastIndexPointer){
+            val temp = nums[lastIndexPointer]
+            nums[lastIndexPointer--] = nums[firstIndexPointer]
+            nums[firstIndexPointer++] = temp
         }
     }
 }
