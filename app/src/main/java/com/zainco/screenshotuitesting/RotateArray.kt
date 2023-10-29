@@ -10,19 +10,19 @@ object RotateArray { // something like a game which reverses all the array then 
         }
     }
 
-    fun rotate(nums: IntArray, k: Int) {
-        reverse(nums, 0, nums.size - 1)
-        reverse(nums, 0, k - 1)
-        reverse(nums, k, nums.size - 1)
-    }
-
-    fun reverse(nums: IntArray, firstIndex: Int, lastIndex: Int) {
-        var firstIndexPointer = firstIndex
-        var lastIndexPointer = lastIndex
-        while (firstIndexPointer<lastIndexPointer){
-            val temp = nums[lastIndexPointer]
-            nums[lastIndexPointer--] = nums[firstIndexPointer]
-            nums[firstIndexPointer++] = temp
+        fun rotate(nums: IntArray, k: Int) {
+            reverse(nums, 0, nums.size - 1)
+            reverse(nums, 0, k - 1)
+            reverse(nums, k, nums.size - 1)
         }
-    }
+
+        fun reverse(nums: IntArray, firstIndex: Int, lastIndex: Int) {
+            var firstIndexPointer = firstIndex
+            var lastIndexPointer = lastIndex
+            while (firstIndexPointer<lastIndexPointer){
+                val temp = nums[lastIndexPointer]
+                nums[lastIndexPointer--] = nums[firstIndexPointer]
+                nums[firstIndexPointer++] = temp
+            }
+        }
 }
